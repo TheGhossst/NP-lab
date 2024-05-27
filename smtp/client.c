@@ -34,7 +34,24 @@ int main(){
 	printf("The message should be in the format To:From:Subject:Body \n");
 	printf("\nEnter the message :\n");
 
+    printf("\nEnter the to email : ");
 	fgets(buffer,sizeof(buffer),stdin);
+    buffer[strcspn(buffer,"\n")] = '\0';
+	send(clientSocket,buffer,strlen(buffer),0);
+
+    printf("\nEnter the from email : ");
+	fgets(buffer,sizeof(buffer),stdin);
+    buffer[strcspn(buffer,"\n")] = '\0';
+	send(clientSocket,buffer,strlen(buffer),0);
+
+    printf("\nEnter the subject : ");
+	fgets(buffer,sizeof(buffer),stdin);
+    buffer[strcspn(buffer,"\n")] = '\0';
+	send(clientSocket,buffer,strlen(buffer),0);
+
+    printf("\nEnter the message : ");
+	fgets(buffer,sizeof(buffer),stdin);
+    buffer[strcspn(buffer,"\n")] = '\0';
 	send(clientSocket,buffer,strlen(buffer),0);
 
 	printf("\nSuccesfully send message to SMTP server\n");

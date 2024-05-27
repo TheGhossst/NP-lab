@@ -47,22 +47,28 @@ int main(){
         clientSocket = accept(serverSocket,(struct sockaddr *)&server_addr,(socklen_t *)&len);
         char to_email[1024],from_email[1024],subject[1024],message[1024];
 
-              recv(clientSocket, to_email , sizeof(to_email), 0);
-              recv(clientSocket, from_email , sizeof(from_email), 0);
-              recv(clientSocket, Subject , sizeof(Subject), 0);
-              recv(clientSocket, message , sizeof(message), 0);
-
-              char *token = strtok(to_email,"@"); //nandu
-              token = strtok(NULL,"@"); //123 -> to domain
-              
-               char *token1 = strtok(from_email,"@"); //nandu
-              token1 = strtok(NULL,"@"); //123*/ -> from domain
-
-                printf(to,from,sub,mesage,token,token1);
-
         printf("Data recieved from client\n\n");
-        printf("%s\n",buffer);
-        tokenize(buffer);    
+        printf("%s\n",buffer);  
+
+        recv(clientSocket, to_email , sizeof(to_email), 0);
+        recv(clientSocket, from_email , sizeof(from_email), 0);
+        recv(clientSocket, subject , sizeof(subject), 0);
+        recv(clientSocket, message , sizeof(message), 0);
+
+        char *token = strtok(to_email,"@"); //nandu
+        token = strtok(NULL,"@"); //123 -> to domain
+              
+        char *token1 = strtok(from_email,"@"); //nandu
+        token1 = strtok(NULL,"@"); //123*/ -> from domain
+
+
+        printf("\nTo email -> %s",to_email);
+        printf("\nFrom email -> %s",from_email);
+        printf("\nSubject -> %s",subject);
+        printf("\nMessage -> %s",message);
+        printf("\nHost domain -> %s", token);
+        printf("\nTarget domain -> %s", token1);
+        
     }
     close(clientSocket);
     close(serverSocket);
