@@ -76,6 +76,10 @@ int main() {
 
     printf("Result -> %d\n", result);
 
+    close(client_socket1);
+    close(client_socket2);
+    close(client_socket3);
+    
     close(server_socket);
     return 0;
 }
