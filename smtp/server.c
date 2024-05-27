@@ -1,7 +1,8 @@
 //B21CS1235
 #include <stdio.h>
 #include <stdlib.h>
-#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -9,23 +10,16 @@
 #define bufferSize 1024
 
 int main(){
-        printf("\nSMTP SERVER\n");
+    printf("\nSMTP SERVER\n");
     int serverSocket,clientSocket;
     struct sockaddr_in server_addr,client_addr;
-    int opt = 1;
     int len = sizeof(server_addr);
-    char buffer[bufferSize] = {0};
+    char buffer[bufferSize];
     
     printf("\nSMTP Server starting ....");
     
-    if((serverSocket = socket(AF_INET,SOCK_STREAM, 0)) == 0 ){
-        perror("Socket Error");
-        exit(EXIT_FAILURE);
-    }
-    if(setsockopt(serverSocket,SOL_SOCKET,SO_REUSEADDR | SO_REUSEPORT,&opt,sizeof(opt))){
-        perror("Options Error");
-        exit(EXIT_FAILURE);
-    }
+    serverSocket = socket(AF_INET,SOCK_STREAM,0);
+    
     server_addr.sin_family = AF_INET; 
     server_addr.sin_addr.s_addr = INADDR_ANY;
     server_addr.sin_port = htons(PORT);
@@ -35,10 +29,7 @@ int main(){
         exit(EXIT_FAILURE);
     }
     
-    if(listen(serverSocket,3) < 0){
-        perror("Listen Error");
-        exit(EXIT_FAILURE);
-    }
+    listen(serverSocket,1);
     
     printf("\nConnection Established!\n");
     int val;
@@ -46,9 +37,6 @@ int main(){
     while(1){
         clientSocket = accept(serverSocket,(struct sockaddr *)&server_addr,(socklen_t *)&len);
         char to_email[1024],from_email[1024],subject[1024],message[1024];
-
-        printf("Data recieved from client\n\n");
-        printf("%s\n",buffer);  
 
         recv(clientSocket, to_email , sizeof(to_email), 0);
         recv(clientSocket, from_email , sizeof(from_email), 0);
