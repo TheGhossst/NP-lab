@@ -61,6 +61,7 @@ int main() {
         leaky_bucket(packet_sizes[i]);
         sleep(1);
     }
+    
     while(bucket_content != 0){
       leaky_bucket(-1);
       sleep(1);  
